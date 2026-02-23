@@ -31,6 +31,15 @@
   )
 )
 
+;; increment only by contract owner
+(define-public (increment-owner (amount uint))
+  (begin
+    (asserts! (is-eq tx-sender contract-owner) (err u101))
+    (var-set counter (+ (var-get counter) amount))
+    (ok (var-get counter))
+  )
+)
+
 ;; read only functions
 (define-read-only (get-count)
   (ok (var-get counter))
